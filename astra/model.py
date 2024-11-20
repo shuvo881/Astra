@@ -21,9 +21,9 @@ class Model:
             raise FileNotFoundError("No model file found in the specified directory.")
         return model_files[0]  # Assuming there's only one matching file
     
-    def load_model(self, model_path: str):
+    def load_model(self, model_path: str, map_location, weights_only):
         model = GPTModel(self.config)
-        state_dict = torch.load(model_path, map_location='cpu', weights_only=False)
+        state_dict = torch.load(model_path, map_location=map_location, weights_only=weights_only)
         model.load_state_dict(state_dict)
         model.eval()  
         return model

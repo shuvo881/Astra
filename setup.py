@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name="astra-llm",
-    version="0.1.0",
+    version="0.1.4",
     author="Md. Golam Mostofa",
     author_email="golammostofa10001@gmail.com",
     description="Astra is a lightweight library for Astra LLM.ß",
@@ -19,6 +19,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.10',
+    python_requires='>=3.11.4',
     install_requires=install_requires,
 )
