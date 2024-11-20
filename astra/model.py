@@ -6,13 +6,14 @@ from .gpt_model import GPTModel
 from .tokenizer import AstraTokenizer
 
 
-torch.serialization.add_safe_globals([GPTModel])
+# torch.serialization.add_safe_globals([GPTModel])
 
 class Model:
-    def __init__(self, model_dir: str):
+    def __init__(self, model_dir: str, map_location='cpu', weights_only=False):
         self.config = self.load_config(model_dir)
         model_path = self.find_model_path(model_dir)
-        self.model = self.load_model(model_path)
+        self.model = self.load_model(model_path, map_location, weights_only)
+    
     
     def find_model_path(self, model_dir: str):
         model_files = glob.glob(os.path.join(model_dir, '*.pth'))
@@ -22,7 +23,8 @@ class Model:
     
     def load_model(self, model_path: str):
         model = GPTModel(self.config)
-        model = torch.load(model_path, map_location='auto', weights_only=False)
+        state_dict = torch.load(model_path, map_location='cpu', weights_only=False)
+        model.load_state_dict(state_dict)
         model.eval()  
         return model
     
