@@ -6,6 +6,8 @@ from astra.model import Model
 # # Example usage
 model = Model('')
 print(model.config)
+print(model.generate("Generate a sentence with a Positive tone. The sentence should be 10-20 words long and clearly convey the specified tone."))
+
 # model_path = 'Astra_1.4B.pth'
 
 # import torch

@@ -40,7 +40,7 @@ class Model:
     def generate(self, messages , max_new_tokens=255, context_size=None, temperature=0.0, top_k=None, eos_id=None):
         
         tokenizer = AstraTokenizer()
-        idx = tokenizer.encoder(messages)
+        idx = tokenizer.encoder(messages, True)
         
         if context_size == None:
             context_size = self.config['context_length']
