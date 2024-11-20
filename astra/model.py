@@ -43,13 +43,13 @@ class Model:
         
         tokenizer = AstraTokenizer()
         idx = tokenizer.encoder(messages, True)
+        idx = idx.to(self.map_location)
         
         if context_size == None:
             context_size = self.config['context_length']
         
         for _ in range(max_new_tokens):
             idx_cond = idx[:, -context_size:]
-            idx_cond = idx_cond.to(self.map_location)
             with torch.no_grad():
                 logits = self.model(idx_cond)
             logits = logits[:, -1, :]
