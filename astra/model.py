@@ -25,6 +25,7 @@ class Model:
         model = GPTModel(self.config)
         state_dict = torch.load(model_path, map_location=map_location, weights_only=weights_only)
         model.load_state_dict(state_dict)
+        model.to(map_location)
         model.eval()  
         return model
     
