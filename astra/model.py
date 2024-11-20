@@ -10,10 +10,11 @@ from .tokenizer import AstraTokenizer
 
 class Model:
     def __init__(self, model_dir: str, map_location='cpu', weights_only=False):
+        self.map_location = map_location
         self.config = self.load_config(model_dir)
         model_path = self.find_model_path(model_dir)
         self.model = self.load_model(model_path, weights_only)
-        self.map_location = map_location
+        
     
     def find_model_path(self, model_dir: str):
         model_files = glob.glob(os.path.join(model_dir, '*.pth'))
