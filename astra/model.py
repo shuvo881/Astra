@@ -12,8 +12,8 @@ class Model:
     def __init__(self, model_dir: str, map_location='cpu', weights_only=False):
         self.config = self.load_config(model_dir)
         model_path = self.find_model_path(model_dir)
-        self.model = self.load_model(model_path, map_location, weights_only)
-    
+        self.model = self.load_model(model_path, weights_only)
+        self.map_location = map_location
     
     def find_model_path(self, model_dir: str):
         model_files = glob.glob(os.path.join(model_dir, '*.pth'))
@@ -21,11 +21,11 @@ class Model:
             raise FileNotFoundError("No model file found in the specified directory.")
         return model_files[0]  # Assuming there's only one matching file
     
-    def load_model(self, model_path: str, map_location, weights_only):
+    def load_model(self, model_path: str, weights_only):
         model = GPTModel(self.config)
-        state_dict = torch.load(model_path, map_location=map_location, weights_only=weights_only)
+        state_dict = torch.load(model_path, map_location=self.map_location, weights_only=weights_only)
         model.load_state_dict(state_dict)
-        model.to(map_location)
+        model.to(self.map_location)
         model.eval()  
         return model
     
@@ -48,6 +48,7 @@ class Model:
         
         for _ in range(max_new_tokens):
             idx_cond = idx[:, -context_size:]
+            idx_cond = idx_cond.to(self.map_location)
             with torch.no_grad():
                 logits = self.model(idx_cond)
             logits = logits[:, -1, :]
