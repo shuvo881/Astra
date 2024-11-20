@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name="astra-llm",
-    version="0.1.18",
+    version="0.1.19",
     author="Md. Golam Mostofa",
     author_email="golammostofa10001@gmail.com",
     description="Astra is a lightweight library for Astra LLM.",
